@@ -1,0 +1,53 @@
+groups:
+  - name: Node General Alerts
+    rules:
+
+    - alert: NodeOutOfMemory
+      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+      for: 2m
+      labels:
+        severity: major
+        service: node_exporter
+      annotations:
+        summary: 'Host out of memory (instance {{ $labels.instance_hostname }})'
+        description: 'Node memory is filling up < 10% left\n  VALUE = {{ $value }}\n LABELS: {{ $labels.instance_hostname }}'
+
+    - alert: NodeHighCPULoad
+      expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
+      for: 0m
+      labels:
+        severity: major
+        service: node_exporter
+      annotations:
+        summary: 'Host high CPU load instance {{ $labels.instance_hostname }}'
+        description: 'CPU load is > 80%\n  VALUE = {{ $value }}\n LABELS: {{ $labels.instance_hostname }}'
+
+    - alert: NodeTimeOutOfSync
+      expr: node_timex_sync_status{} != 1
+      for: 5m
+      labels:
+        severity: major
+        service: node_exporter
+      annotations:
+        summary: 'NodeTimeOutOfSync - {{ $labels.instance_hostname }}'
+        description: 'Time on instance "{{ $labels.instance_hostname }}" not in sync with NTP.'
+
+    - alert: NodeTextfileCollectorDown
+      expr: time() - node_textfile_mtime_seconds{} > 3000
+      for: 5m
+      labels:
+        severity: major
+        service: node_exporter
+      annotations:
+        summary: 'NodeTextfileCollectorDown - {{ $labels.instance_hostname }} - {{ $labels.file }}'
+        description: 'Prometheus node-exporter textfile collector for file "{{ $labels.file }}" on instance "{{ $labels.instance_hostname }}" is down.'
+
+    - alert: NodeTextfileScrapingError
+      expr: node_textfile_scrape_error != 0
+      for: 5m
+      labels:
+        severity: major
+        service: node_exporter
+      annotations:
+        summary: 'NodeTextfileScrapingError - {{ $labels.instance_hostname }}'
+        description: 'Prometheus node-exporter textfile collector scraping error on instance "{{ $labels.instance_hostname }}".'
