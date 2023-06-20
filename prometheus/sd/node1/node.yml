@@ -1,7 +1,6 @@
 ---
  - labels:
-     environment: testnet
+     environment: bluzelle-node-1
      role: node
    targets:
-   - ip_here:9100
    - ip_here:9100

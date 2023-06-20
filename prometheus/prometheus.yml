@@ -10,13 +10,8 @@ rule_files:
   - rules/alerts/node.disk.rules
 
 scrape_configs:
-   - job_name: mainnet
+   - job_name: node1
      file_sd_configs:
        - refresh_interval: 1m
          files:
-           - 'sd/mainnet/*.yml'
-   - job_name: testnet 
-     file_sd_configs:
-       - refresh_interval: 1m
-         files:
-           - 'sd/testnet/*.yml'
+           - 'sd/node1/*.yml'

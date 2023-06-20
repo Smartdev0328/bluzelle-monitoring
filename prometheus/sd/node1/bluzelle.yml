@@ -1,0 +1,6 @@
+---
+ - labels:
+     environment: bluzelle-node-1
+     role: sentry
+   targets:
+   - ip_here:26660

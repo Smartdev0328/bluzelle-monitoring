@@ -1,7 +1,7 @@
 ---
  - labels:
-     environment: mainnet
+     environment: bluzelle-node-2
      role: node
    targets:
    - ip_here:9100
-   - ip_here:9100
+
