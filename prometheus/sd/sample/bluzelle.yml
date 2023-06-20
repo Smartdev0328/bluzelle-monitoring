@@ -1,0 +1,7 @@
+---
+ - labels:
+     environment: env_name
+     role: role_name
+   targets:
+   - ip_here:26660
+
